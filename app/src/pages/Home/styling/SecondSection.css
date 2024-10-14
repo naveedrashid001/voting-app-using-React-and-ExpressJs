@@ -1,0 +1,17 @@
+.image-container {
+    width: 420px; /* Fixed width */
+    height: calc(768px * 0.55); /* This ensures the height is 55% of the width */
+    position: relative;
+    background: linear-gradient(135deg, #4C2CD9, #CF1F8B);
+    border-radius: 20px;
+    /* padding: 20px; */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+  }
+  
+  .image {
+    width: 100%; /* Make image take full width of container */
+    height: 100%; /* Match height of container */
+    object-fit: contain; /* Ensure image retains aspect ratio */
+  }

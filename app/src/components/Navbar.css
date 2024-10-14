@@ -1,0 +1,30 @@
+.navbar-custom {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  
+.nav-item .nav-link {
+    position: relative; /* Needed for absolute positioning of the border */
+    font-weight: bold; /* Make the text bold */
+  }
+  
+  .nav-item .nav-link:hover {
+    color: var(--bs-primary); /* Change to Bootstrap primary color on hover */
+  }
+  
+  .nav-item .nav-link::after {
+    content: ''; /* Create an empty element */
+    position: absolute; /* Position it relative to the link */
+    left: 50%; /* Center it horizontally */
+    bottom: -2px; /* Position it below the text */
+    transform: translateX(-50%); /* Adjust position to truly center it */
+    width: 80%; /* Set the width of the border */
+    border-bottom: 2px solid red; /* Set the border style */
+    opacity: 0; /* Hide the border initially */
+    transition: opacity 0.3s ease; /* Smooth transition for the border */
+  }
+  
+  .nav-item .nav-link:hover::after {
+    opacity: 1; /* Show the border on hover */
+  }
+  

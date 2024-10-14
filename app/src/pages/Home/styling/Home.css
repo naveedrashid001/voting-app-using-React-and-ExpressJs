@@ -1,0 +1,69 @@
+/* Gradient for the main heading */
+.gradient-text {
+    background: linear-gradient(90deg, #2F2EE9, #B4229B);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bolder;
+  }
+  
+  /* Make text bold */
+  .bold-text {
+    font-weight: 700;
+  }
+  
+  /* Badge styling */
+  .custom-badge {
+    background: linear-gradient(90deg, #007bff, #d61f87);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 10px; /* Reduced rounding */
+    padding: 4px 12px;
+    text-transform: uppercase;
+  }
+  
+  /* Container for the badge */
+  .badge-container {
+    text-align: left; /* Align left */
+    padding-top: 48px; /* Padding from top */
+    margin-left: 48px; /* Slight margin from the left */
+  }
+  
+  /* Section styles */
+  .hero-section {
+    padding: 60px 0px;
+  }
+  
+  .hero-section .subheading {
+    color: #6c757d;
+    font-weight: 500;
+  }
+  
+  /* Button styling */
+  .btn-custom-primary {
+    background-color: #007bff;
+    color: white;
+    border-radius: 10px; /* Slight rounding */
+    padding: 10px 30px;
+    font-size: 18px;
+    font-weight: bold; /* Bold button text */
+  }
+  
+  .btn-custom-secondary {
+    border: 2px solid #000;
+    color: #000;
+    border-radius: 10px; /* Slight rounding */
+    padding: 10px 30px;
+    font-size: 18px;
+    font-weight: bold; /* Bold button text */
+  }
+  
+  .btn-custom-secondary:hover {
+    background-color: #000;
+    color: white;
+  }
+  .divCenter{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+  }
