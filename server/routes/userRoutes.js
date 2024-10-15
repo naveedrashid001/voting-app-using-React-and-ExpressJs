@@ -48,4 +48,24 @@ router.post('/', async (req, res) => {
   }
 });
 
+// New route to get user data by IP
+router.get('/data-by-ip', async (req, res) => {
+  const ip = req.query.ip || req.ip; // Get the IP address from the query string or request
+
+  try {
+    // Example: Assuming you want to find users based on a specific criterion related to the IP
+    // Replace this with your actual logic to retrieve user data based on the IP address
+    const users = await User.find({ /* Add your criteria here */ });
+
+    if (!users.length) {
+      return res.status(404).json({ message: 'No users found' });
+    }
+
+    res.status(200).json({ users });
+  } catch (error) {
+    console.error('Error fetching users by IP:', error);
+    res.status(500).json({ message: 'Error fetching users', error: error.message });
+  }
+});
+
 module.exports = router;

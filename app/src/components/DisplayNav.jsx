@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Ensure useState is imported
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,9 +10,16 @@ function DisplayNav({ selectedPage }) {
 
   // Function to handle actual logout
   const handleLogOut = () => {
+    const token = Cookies.get('authToken'); // Get the token from cookies
+    if (token) {
+      console.log("Your token is expired: ", token); // Log expiration message with token
+      Cookies.remove('authToken'); // Remove token from cookies
+      console.log("Token removed from cookies."); // Log confirmation of removal
+    } else {
+      console.log("No token found in cookies."); // Log if no token exists
+    }
     setShowModal(false);  // Close the modal
-    Cookies.remove('authToken');  // Remove token from cookies
-    navigate('/');  // Redirect to the logout page
+    navigate('/');  // Redirect to the home page after logout
   };
 
   // Function to cancel the logout

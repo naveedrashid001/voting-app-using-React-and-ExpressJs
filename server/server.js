@@ -17,7 +17,7 @@ mongoose.connect(uri)
   .catch((err) => console.error('Error connecting to MongoDB:', err));
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:5173' })); // Use CORS middleware, allowing requests from React app
+app.use(cors({ origin: 'http://localhost:5173' })); // Allow requests from your React app
 app.use(express.json()); // To handle JSON data
 
 // Routes
