@@ -1,9 +1,13 @@
 
 import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
-function SignIn() {
+function SignIn({setSelectedPage}) {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setSelectedPage('SignIn');
+  }, [setSelectedPage]);
  
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent the default form submission

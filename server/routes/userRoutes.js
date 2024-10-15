@@ -1,5 +1,5 @@
 const express = require('express');
-const User = require('../models/user'); // Ensure the path is correct (case-sensitive)
+const User = require('../models/user'); // Make sure the path to your model is correct
 const router = express.Router();
 
 // Create a new user
@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ message: 'User with this email or CNIC already exists' });
     }
 
-    // Create new user
+    // Create new user if validation passes
     const newUser = new User({
       name,
       age,
@@ -29,12 +29,11 @@ router.post('/', async (req, res) => {
       password
     });
 
-    // Save the new user
+    // Save the new user to the database
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully!', user: newUser });
   } catch (error) {
     console.error('Error registering user:', error);
-    // Send specific error details in development, but keep it simple in production
     res.status(500).json({ message: 'Error registering user', error: error.message });
   }
 });
