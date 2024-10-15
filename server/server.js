@@ -1,13 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors'); // Import cors
+const dotenv = require('dotenv'); // Import dotenv
+
+dotenv.config(); // Load environment variables from .env file
+
 const app = express();
 const port = 4000;
 
-// MongoDB connection URI
-const uri = 'mongodb://localhost:27017';
+// MongoDB connection URI from the environment variable
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/your_database_name'; // Fallback to local MongoDB if not defined
 
-// Connect to MongoDB using Mongoose
+// Connect to MongoDB using Mongoose (without deprecated options)
 mongoose.connect(uri)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('Error connecting to MongoDB:', err));
