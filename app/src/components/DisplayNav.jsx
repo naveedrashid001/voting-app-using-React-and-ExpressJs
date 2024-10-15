@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 
-function Navbar({ selectedPage }) {
+function DisplayNav({ selectedPage }) {
   return (
-    <nav className="navbar navbar-expand navbar-light bg-light navbar-custom mb-0"> {/* Added custom class */}
+    <nav className="navbar navbar-expand navbar-light bg-light navbar-custom mb-0"> 
       <div className="container-fluid">
         <h2 className="navbar-brand text-primary">
           <i className="bi bi-app-indicator text-success me-2"></i>
@@ -32,9 +32,14 @@ function Navbar({ selectedPage }) {
                 <Link className="nav-link" to="/Profile">Profile</Link>
               </li>
             ) : null}
-            {!selectedPage || selectedPage !== 'Results' ? (
+            {!selectedPage || selectedPage !== 'ApplyVote' ? (
               <li className="nav-item fw-bold">
-                <Link className="nav-link" to="/Results">Results</Link>
+                <Link className="nav-link" to="/ApplyVote">Apply For Vote</Link>
+              </li>
+            ) : null}
+            {!selectedPage || selectedPage !== 'NewResults' ? (
+              <li className="nav-item fw-bold">
+                <Link className="nav-link" to="/NewResults">Results</Link>
               </li>
             ) : null}
           </ul>
@@ -53,4 +58,4 @@ function Navbar({ selectedPage }) {
   );
 }
 
-export default Navbar;
+export default DisplayNav;
