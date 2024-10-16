@@ -1,86 +1,90 @@
-
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import React, { useEffect } from 'react';
+import Cookies from 'js-cookie'; // Using js-cookie for handling cookies
 
-function SignIn({setSelectedPage}) {
-  const navigate = useNavigate();
+function SignIn({ setSelectedPage }) {
+    const [formData, setFormData] = useState({
+        name: '',
+        age: '',
+        email: '',
+        mobile: '',
+        address: '',
+        cnicNumber: '',
+        password: ''
+    });
 
-  useEffect(() => {
-    setSelectedPage('SignIn');
-  }, [setSelectedPage]);
- 
-  const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent the default form submission
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate(); // Use useNavigate for navigation
 
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
+    useEffect(() => {
+        setSelectedPage('SignIn');
+    }, [setSelectedPage]);
 
-    try {
-      const response = await fetch('/user/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+    // Handle input changes for form fields
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
 
-      if (response.ok) {
-        // Redirect to another page after successful signup
-        navigate('/somewhere'); // Replace '/somewhere' with your desired route
-      } else {
-        const errorResponse = await response.json();
-        console.error('Error:', errorResponse);
-        // Optionally, you could show an error message to the user
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      // Optionally, handle errors (e.g., network issues)
-    }
-  };
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent the default form submission
 
-  return (
-    <section className="py-5">
-      <div className="container px-5">
-        <div className="bg-light rounded-4 py-5 px-4 px-md-5">
-          <div className="text-center mb-5">
-            <div>
-              <img
-                className="feature rounded-3 mb-3"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjsU9I6rvcOTugnfsbL9l8L8OnW9ZlE7qdyg&s"
-                alt="pakFlag"
-                style={{ width: '100px' }}
-              />
-            </div>
-            <h1 className="fw-bolder">Become a Voter</h1>
-          </div>
-          <div className="row gx-5 justify-content-center">
-            <div className="col-lg-8 col-xl-6">
-              <form onSubmit={handleSubmit} id="contactForm" encType="application/json">
-                {/* All your input fields remain unchanged */}
-                <div className="form-floating mb-3">
-                  <input
-                    className="form-control"
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="Enter your name..."
-                    required
-                  />
-                  <label htmlFor="name">Full name</label>
-                </div>
-                {/* Other fields here... */}
-                <input
-                  className="d-grid btn btn-primary btn-lg form-control"
-                  type="submit"
-                  value="Submit"
-                />
-              </form>
-            </div>
-          </div>
+        try {
+            const response = await fetch('http://localhost:4000/api/user/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const text = await response.text(); // Read response as text
+
+            if (response.ok) {
+                const data = JSON.parse(text); // Parse the JSON response
+                console.log('Full response data:', data); // Log the full response for debugging
+
+                const { token, userId } = data; // Access the token and user ID from response
+                if (token) {
+                    Cookies.set('authToken', token, { expires: 1 }); // Set the cookie
+                    localStorage.setItem('userId', userId); // Store user ID in local storage
+                    console.log('Token set in cookies:', token);
+                    console.log('User ID stored in local storage:', userId);
+                    navigate('/HomePage'); // Redirect to HomePage after successful registration
+                } else {
+                    console.error('Token is undefined. Check the backend response structure.');
+                }
+            } else {
+                // Handle error response
+                const errorMessage = text || 'User already exists. Please try a different email or CNIC.';
+                console.error('Error registering user:', errorMessage);
+                setErrorMessage(errorMessage);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setErrorMessage('An unexpected error occurred. Please try again.');
+        }
+    };
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <input type="text" name="name" placeholder="Enter Name" value={formData.name} onChange={handleChange} required />
+                <input type="number" name="age" placeholder="Enter Age" value={formData.age} onChange={handleChange} required />
+                <input type="email" name="email" placeholder="Enter Email" value={formData.email} onChange={handleChange} required />
+                <input type="text" name="mobile" placeholder="Enter Mobile" value={formData.mobile} onChange={handleChange} required />
+                <input type="text" name="address" placeholder="Enter Address" value={formData.address} onChange={handleChange} required />
+                <input type="text" name="cnicNumber" placeholder="Enter CNIC Number" value={formData.cnicNumber} onChange={handleChange} required />
+                <input type="password" name="password" placeholder="Enter Password" value={formData.password} onChange={handleChange} required />
+                <button type="submit">Submit</button>
+            </form>
+            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         </div>
-      </div>
-    </section>
-  );
+    );
 }
 
 export default SignIn;

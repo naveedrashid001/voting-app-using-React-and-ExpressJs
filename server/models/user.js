@@ -1,4 +1,3 @@
-// models/User.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -46,6 +45,10 @@ const userSchema = new mongoose.Schema({
     isVoted: {
         type: Boolean,
         default: false
+    },
+    ip: { // New field for IP address
+        type: String,
+        required: false
     }
 });
 

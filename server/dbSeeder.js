@@ -1,4 +1,3 @@
-// dbSeeder.js
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Cnic = require('./models/cnic'); // Import the CNIC model
@@ -26,12 +25,17 @@ mongoose.connect(uri)
         // Upsert each CNIC in the database
         for (const cnicEntry of cnicData) {
             await Cnic.updateOne(
-                { cnic: cnicEntry.cnic }, // Find the CNIC
-                { $setOnInsert: cnicEntry }, // Insert if it does not exist
-                { upsert: true } // Enable upsert
+                { cnic: cnicEntry.cnic },
+                { $set: cnicEntry },
+                { upsert: true }
             );
         }
-        console.log('CNIC data saved to MongoDB');
+
+        console.log('CNIC data seeded');
     })
-    .catch((err) => console.error('Error connecting to MongoDB:', err))
-    .finally(() => mongoose.disconnect());
+    .catch((error) => {
+        console.error('Error connecting to MongoDB:', error);
+    })
+    .finally(() => {
+        mongoose.disconnect();
+    });

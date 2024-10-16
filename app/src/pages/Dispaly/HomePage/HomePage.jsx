@@ -15,8 +15,8 @@ function HomePage() {
             <p className="lead">
               "Voting is the expression of our commitment to ourselves, one another, this country, and this world."
             </p>
-            <Link  to="/ApplyVote"> 
-            <button className="btn btn-primary btn-lg">Activate Your Vote</button>
+            <Link to="/ApplyVote"> 
+              <button className="btn btn-primary btn-lg">Activate Your Vote</button>
             </Link>
           </div>
           <div className="col-md-6 mt-5">
@@ -29,8 +29,8 @@ function HomePage() {
                     alt="First slide"
                     style={{ 
                       border: '5px solid #7D3C98', 
-                      height: '400px',  // Fixed height for uniformity
-                      objectFit: 'cover' // Ensures the image covers the area
+                      height: '400px',  // Set a fixed height
+                      objectFit: 'cover' // Keep aspect ratio
                     }}
                   />
                 </div>
@@ -40,40 +40,30 @@ function HomePage() {
                     className="d-block w-100 rounded-circle"
                     alt="Second slide"
                     style={{ 
-                      border: '5px solid #7D3C98', 
-                      height: '400px',  // Fixed height for uniformity
-                      objectFit: 'cover' // Ensures the image covers the area
+                      border: '5px solid #7D3C98',
+                      height: '400px',
+                      objectFit: 'cover'
                     }}
                   />
                 </div>
                 <div className="carousel-item">
                   <img
-                    src="/images/image3.jpeg"
+                    src="/images/image3.jpg"
                     className="d-block w-100 rounded-circle"
                     alt="Third slide"
                     style={{ 
-                      border: '5px solid #7D3C98', 
-                      height: '400px',  // Fixed height for uniformity
-                      objectFit: 'cover' // Ensures the image covers the area
+                      border: '5px solid #7D3C98',
+                      height: '400px',
+                      objectFit: 'cover'
                     }}
                   />
                 </div>
               </div>
-              <button
-                className="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselExampleControls"
-                data-bs-slide="prev"
-              >
+              <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                 <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span className="visually-hidden">Previous</span>
               </button>
-              <button
-                className="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselExampleControls"
-                data-bs-slide="next"
-              >
+              <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
                 <span className="carousel-control-next-icon" aria-hidden="true"></span>
                 <span className="visually-hidden">Next</span>
               </button>

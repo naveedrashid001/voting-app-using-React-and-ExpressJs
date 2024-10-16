@@ -16,6 +16,7 @@ import LogOut from './pages/LogOut/LogOut';
 import ApplyVote from './pages/ApplyVote/ApplyVote';
 import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
 import AdmainPage from './pages/AdmainPage/AdmainPage';
+import NotFound from './pages/NotFound/NotFound';
 
 function AppRoutes() {
   const [selectedPage, setSelectedPage] = useState('');
@@ -43,6 +44,8 @@ function AppRoutes() {
         <Route path="/SignIn" element={<SignIn setSelectedPage={setSelectedPage} />} />
         <Route path="/LogIn" element={<LogIn setSelectedPage={setSelectedPage} />} />
         <Route path="/HomePage"  element={<ProtectedRoute element={<HomePage />} />}/>
+        <Route path="*"  element={<NotFound />}/>
+
 
         {/* Use ProtectedRoute to wrap protected components */}
         <Route path="/Profile" element={<ProtectedRoute element={<Profile />} />} />
