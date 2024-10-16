@@ -1,30 +1,34 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Import cors
-const dotenv = require('dotenv'); // Import dotenv
+const dotenv = require('dotenv');
+const cors = require('cors'); // Import CORS middleware
+const userRoutes = require('./routes/userRoutes'); // Ensure this matches your file path
 
-dotenv.config(); // Load environment variables from .env file
-
+dotenv.config();
 const app = express();
-const port = 4000;
 
-// MongoDB connection URI from the environment variable
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/your_database_name'; // Fallback to local MongoDB if not defined
+// Middleware to handle CORS
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow only this origin
+    methods: ['GET', 'POST'], // Allow specific methods
+    credentials: true // Enable if you're using cookies or authorization headers
+}));
 
-// Connect to MongoDB using Mongoose (without deprecated options)
+app.use(express.json()); // Middleware to parse JSON bodies
+
+// Use the combined routes
+app.use('/api', userRoutes); // Prefix routes with /api
+
+// Connect to MongoDB and start the server
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/Voting';
 mongoose.connect(uri)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('Error connecting to MongoDB:', err));
-
-// Middleware
-app.use(cors({ origin: 'http://localhost:5173' })); // Allow requests from your React app
-app.use(express.json()); // To handle JSON data
-
-// Routes
-const userRoutes = require('./routes/userRoutes');
-app.use('/user', userRoutes); // Use userRoutes for /user endpoint
-
-// Start the Express server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+    .then(() => {
+        console.log('Connected to MongoDB');
+        app.listen(4000, () => {
+            console.log('Server running on http://localhost:4000');
+        });
+    })
+    .catch((error) => {
+        console.error('Error connecting to MongoDB:', error);
+    });

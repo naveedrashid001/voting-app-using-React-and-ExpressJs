@@ -1,3 +1,4 @@
+// models/User.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -11,30 +12,31 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true, // Ensure emails are unique
     },
     mobile: {
         type: String,
-        required: true
+        required: true,
     },
     address: {
         type: String,
-        required: true
+        required: true,
     },
     cnicNumber: {
-        type: Number,
+        type: String, // Changed from Number to String
         unique: true,
         required: true,
         validate: {
             validator: function (v) {
-                return /^\d{13}$/.test(v.toString());
+                return /^\d{13}$/.test(v);
             },
             message: props => `${props.value} is not a valid CNIC number! It must be exactly 13 digits.`
         }
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     role: {
         type: String,

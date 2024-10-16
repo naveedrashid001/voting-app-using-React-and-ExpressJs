@@ -58,6 +58,11 @@ function DisplayNav({ selectedPage }) {
                   <Link className="nav-link" to="/Profile">Profile</Link>
                 </li>
               ) : null}
+              {!selectedPage || selectedPage !== 'AdmainPage' ? (
+                <li className="nav-item fw-bold">
+                  <Link className="nav-link" to="/AdmainPage">AdmainPage</Link>
+                </li>
+              ) : null}
               {!selectedPage || selectedPage !== 'ApplyVote' ? (
                 <li className="nav-item fw-bold">
                   <Link className="nav-link" to="/ApplyVote">Apply For Vote</Link>
@@ -124,3 +129,9 @@ function DisplayNav({ selectedPage }) {
 }
 
 export default DisplayNav;
+
+
+
+
+
+

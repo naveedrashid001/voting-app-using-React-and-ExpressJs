@@ -15,6 +15,7 @@ import NewResults from './pages/NewResults/NewResults';
 import LogOut from './pages/LogOut/LogOut';
 import ApplyVote from './pages/ApplyVote/ApplyVote';
 import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
+import AdmainPage from './pages/AdmainPage/AdmainPage';
 
 function AppRoutes() {
   const [selectedPage, setSelectedPage] = useState('');
@@ -23,6 +24,7 @@ function AppRoutes() {
   const isHiddenNavbar = 
     location.pathname === '/HomePage' || 
     location.pathname === '/Profile' || 
+    location.pathname === '/AdmainPage' || 
     location.pathname === '/NewResults' || 
     location.pathname === '/LogOut' || 
     location.pathname === '/ApplyVote';
@@ -40,10 +42,11 @@ function AppRoutes() {
         <Route path="/Contact" element={<Contact setSelectedPage={setSelectedPage} />} />
         <Route path="/SignIn" element={<SignIn setSelectedPage={setSelectedPage} />} />
         <Route path="/LogIn" element={<LogIn setSelectedPage={setSelectedPage} />} />
-        <Route path="/HomePage" element={<HomePage />} />
+        <Route path="/HomePage"  element={<ProtectedRoute element={<HomePage />} />}/>
 
         {/* Use ProtectedRoute to wrap protected components */}
         <Route path="/Profile" element={<ProtectedRoute element={<Profile />} />} />
+        <Route path="/AdmainPage" element={<ProtectedRoute element={<AdmainPage />} />} />
         <Route path="/ApplyVote" element={<ProtectedRoute element={<ApplyVote />} />} />
         <Route path="/NewResults" element={<ProtectedRoute element={<NewResults />} />} />
         <Route path="/LogOut" element={<LogOut />} />
