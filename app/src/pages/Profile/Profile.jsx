@@ -40,7 +40,7 @@ function Profile() {
     <>
       <DisplayNav />
       <div className="w-100 h-100 d-flex justify-content-center align-items-center" style={{ backgroundColor: "#EAE6F5", height: "100vh" }}>
-        <div className="card border-0" style={{ width: '30rem', height: 'auto', margin: '20px 0' }}> {/* Add margin here */}
+        <div className="card border-0" style={{ width: '30rem', height: 'auto', margin: '20px 0' }}>
           <div className="card-body d-flex flex-column justify-content-center">
             <h4 className="card-title text-center">Profile Details</h4>
             {/* Centering the image */}
@@ -60,7 +60,13 @@ function Profile() {
                 <div className="col-md-12"><p><strong>Address:</strong> {userData.users[0].address}</p></div>
               </div>
             ) : (
-              <p>Loading user data...</p> 
+              <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
+                <img
+                  src="/images/loading.gif"
+                  alt="Loading..."
+                  style={{ width: '120px', height: '120px', padding: '20px' }}
+                />
+              </div>
             )}
           </div>
         </div>
