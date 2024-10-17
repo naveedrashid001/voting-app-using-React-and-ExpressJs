@@ -13,10 +13,11 @@ import { useState } from 'react';
 import Profile from './pages/Profile/Profile';
 import NewResults from './pages/NewResults/NewResults';
 import LogOut from './pages/LogOut/LogOut';
-import ApplyVote from './pages/ApplyVote/ApplyVote';
 import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
 import AdmainPage from './pages/AdmainPage/AdmainPage';
 import NotFound from './pages/NotFound/NotFound';
+import SingleCandidate from './pages/SingleCandidate/SingleCandidate'; // Import the SingleCandidate component
+import ApplyVote from './pages/ApplyVote/ApplyVote'; // Import the ApplyVote component
 
 function AppRoutes() {
   const [selectedPage, setSelectedPage] = useState('');
@@ -43,14 +44,14 @@ function AppRoutes() {
         <Route path="/Contact" element={<Contact setSelectedPage={setSelectedPage} />} />
         <Route path="/SignIn" element={<SignIn setSelectedPage={setSelectedPage} />} />
         <Route path="/LogIn" element={<LogIn setSelectedPage={setSelectedPage} />} />
-        <Route path="/HomePage"  element={<ProtectedRoute element={<HomePage />} />}/>
-        <Route path="*"  element={<NotFound />}/>
-
+        <Route path="/HomePage" element={<ProtectedRoute element={<HomePage />} />} />
+        <Route path="/candidate/:id" element={<SingleCandidate />} /> {/* New route for individual candidate */}
+        <Route path="*" element={<NotFound />} />
 
         {/* Use ProtectedRoute to wrap protected components */}
         <Route path="/Profile" element={<ProtectedRoute element={<Profile />} />} />
         <Route path="/AdmainPage" element={<ProtectedRoute element={<AdmainPage />} />} />
-        <Route path="/ApplyVote" element={<ProtectedRoute element={<ApplyVote />} />} />
+        <Route path="/ApplyVote" element={<ProtectedRoute element={<ApplyVote />} />} /> {/* ApplyVote wrapped in ProtectedRoute */}
         <Route path="/NewResults" element={<ProtectedRoute element={<NewResults />} />} />
         <Route path="/LogOut" element={<LogOut />} />
       </Routes>

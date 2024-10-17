@@ -1,3 +1,7 @@
  to run the cnic :  node seedCnicData.js
 
   run the server and the app : npm run dev
+
+
+ to run candaite : node seedCandidateData.js
+

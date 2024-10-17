@@ -3,15 +3,13 @@ const mongoose = require('mongoose');
 const candidateSchema = new mongoose.Schema({
     name: {
         type: String,
-        enum: ['imran khan', 'shehbaz shareef', 'bilawal bhutto', 'khalid maqbool', 'fazl ur rahman', 'hafiz naeem ur rehman', 'Shujaat Hussain', 'Aimal Wali Khan'],
         required: true,
-        unique: true
+        unique: true // Keep unique for candidate names
     },
     party: {
         type: String,
-        enum: ['PTI', 'PML-N', 'PPP', 'MQM-P', 'JUI-F', 'JI', 'PML-Q', 'ANP'],
-        required: true,
-        unique: true
+        required: true
+        // Remove the unique: true constraint here
     },
     age: {
         type: Number,
@@ -36,7 +34,6 @@ const candidateSchema = new mongoose.Schema({
     }
 });
 
-// Check if the Candidate model already exists before creating a new one
 const Candidate = mongoose.models.Candidate || mongoose.model('Candidate', candidateSchema);
 
 module.exports = Candidate;

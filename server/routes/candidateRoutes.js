@@ -6,6 +6,46 @@ const Candidate = require('../models/candidate');
 
 const path = require('path');
 
+// get all can 
+
+router.get('/', async (req, res) => {
+    try {
+        // Query to retrieve all candidates with their full data
+        const candidates = await Candidate.find({})
+            .select('_id name party age votes voteCount') // Select all the necessary fields
+            .populate('votes.user', 'name'); // Populate the user field from votes
+
+        if (!candidates.length) {
+            return res.status(404).json({ message: 'There are no candidates in the database.' });
+        }
+
+        // Respond with the full candidate data
+        return res.status(200).json(candidates);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ err: 'Internal Server Error' });
+    }
+});
+
+//  single can ?
+router.get('/:id', async (req, res) => {
+    try {
+        const candidate = await Candidate.findById(req.params.id)
+            .select('_id name party age votes voteCount') // Select the necessary fields
+            .populate('votes.user', 'name'); // Populate the user field from votes
+
+        if (!candidate) {
+            return res.status(404).json({ message: 'Candidate not found.' });
+        }
+
+        return res.status(200).json(candidate);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ err: 'Internal Server Error' });
+    }
+});
+
+
 
 // Candidate list route
 router.get('/candaidatelist', (req, res) => {
@@ -56,19 +96,6 @@ router.get('/votecount', async (req, res) => {
     }
 });
 
-// find all candaidate
-router.get('/', async (req, res) => {
-    
-    try {
-        const candidate = await Candidate.find({}, '_id name party')
-        if (!candidate) {
-            return res.status(404).json({ message: 'ther is no candaidate in database' });
-        }
-         return res.status(200).json(candidate);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ err: "Internal Server Error" });
-    }
-});
+
 
 module.exports = router;
