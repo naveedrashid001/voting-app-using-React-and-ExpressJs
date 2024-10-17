@@ -6,42 +6,26 @@ import Cookies from 'js-cookie';
 
 function DisplayNav({ selectedPage, userCNIC }) {
     const [showModal, setShowModal] = useState(false);
-    const [adminCNICs, setAdminCNICs] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false); // Track if the user is admin
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchCNICs = async () => {
-            try {
-                const response = await fetch('http://localhost:4000/api/cnics');
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                setAdminCNICs(data.map(item => item.cnic));
-            } catch (error) {
-                console.error("Error fetching CNICs:", error);
-            }
-        };
-
-        fetchCNICs();
-    }, []);
+        const adminStatus = localStorage.getItem('isAdmin') === 'true'; // Check admin status from localStorage
+        setIsAdmin(adminStatus); // Update isAdmin state
+    }, []); // Run once after component mounts
 
     const handleLogOut = () => {
-        // Remove authToken from cookies
-        Cookies.remove('authToken', { path: '/' }); // Ensure path is correct
-        console.log("Token removed from cookies.");
-
-        // Optionally clear any user-related state or local storage
-        localStorage.removeItem('userId'); // Remove userId if stored in localStorage
-
+        Cookies.remove('authToken', { path: '/' });
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userCNIC');
+        localStorage.removeItem('isAdmin'); // Clear admin status on logout
         setShowModal(false);
-        navigate('/'); // Redirect to home or login page after logout
+        navigate('/');
     };
 
     const handleCancel = () => {
         setShowModal(false);
     };
-
-    const isValidCNIC = (cnic) => /^\d{13}$/.test(cnic);
-    const isAdmin = isValidCNIC(userCNIC) && adminCNICs.includes(userCNIC);
 
     return (
         <>
@@ -57,14 +41,12 @@ function DisplayNav({ selectedPage, userCNIC }) {
                     <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item fw-bold">
-                                <Link className="nav-link" to="/HomePage">HomePage</Link>
-                            </li>
-                            <li className="nav-item fw-bold">
                                 <Link className="nav-link" to="/Profile">Profile</Link>
                             </li>
+                            {/* Conditionally render the AdmainPage link if the user is an admin */}
                             {isAdmin && (
                                 <li className="nav-item fw-bold">
-                                    <Link className="nav-link" to="/AdminPage">AdminPage</Link>
+                                    <Link className="nav-link" to="/AdmainPage">AdmainPage</Link>
                                 </li>
                             )}
                             <li className="nav-item fw-bold">
@@ -81,7 +63,7 @@ function DisplayNav({ selectedPage, userCNIC }) {
                 </div>
             </nav>
 
-            {/* Modal for confirmation */}
+            {/* Modal for logout confirmation */}
             {showModal && (
                 <div className="modal show d-block" tabIndex="-1" style={{ display: 'block' }}>
                     <div className="modal-dialog">
@@ -95,7 +77,7 @@ function DisplayNav({ selectedPage, userCNIC }) {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
-                                <button type="button" className="btn btn-primary" onClick={handleLogOut}>LogOut</button>
+                                <button type="button" className="btn btn-danger" onClick={handleLogOut}>Log Out</button>
                             </div>
                         </div>
                     </div>

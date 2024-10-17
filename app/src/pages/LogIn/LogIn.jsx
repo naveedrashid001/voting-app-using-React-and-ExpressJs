@@ -11,58 +11,68 @@ function LogIn({ setSelectedPage }) {
 
   // Handle form submission for login
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
     
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-  
-    console.log('Form data:', data); // Log form data for debugging
-  
+
+    console.log('Form data:', data);
+
     try {
-      const response = await fetch('http://localhost:4000/api/user/login', { // Adjust endpoint as needed
+      const response = await fetch('http://localhost:4000/api/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
-  
-      console.log('Response status:', response.status); // Log response status
-  
+
+      console.log('Response status:', response.status);
+
       if (response.ok) {
-        const responseData = await response.json(); // Parse the response JSON
-        console.log('Login successful:', responseData); // Log the entire response
-  
-        // Check if the token exists in the response
+        const responseData = await response.json();
+        console.log('Login successful:', responseData);
+
         if (responseData.token) {
-          // Store token in cookies and userId in local storage
+          // Store token and user details
           Cookies.set('authToken', responseData.token, { expires: 1 });
           localStorage.setItem('userId', responseData.userId);
-  
-          console.log('Token stored in cookies:', Cookies.get('authToken')); // Log the stored token
+          localStorage.setItem('userCNIC', data.cnic);
+
+          console.log('Token stored in cookies:', Cookies.get('authToken'));
           console.log('UserId stored in localStorage:', localStorage.getItem('userId'));
-  
-          // Redirect to home page after successful login
+          console.log('User CNIC stored in localStorage:', localStorage.getItem('userCNIC'));
+
+          // Fetch all CNICs to check for admin rights
+          const adminResponse = await fetch('http://localhost:4000/api/cnic/all');
+          const adminData = await adminResponse.json();
+          const adminCNICs = adminData.map(item => item.cnic);
+
+          // Check if the user's CNIC matches any admin CNIC
+          if (adminCNICs.includes(data.cnic)) {
+            localStorage.setItem('isAdmin', 'true'); // Store admin status
+          } else {
+            localStorage.setItem('isAdmin', 'false'); // Set as regular user
+          }
+
+          // Always redirect to HomePage after login
           navigate('/HomePage');
         } else {
-          // Token is missing, log the error and show an alert
           console.error('Token is undefined in the response:', responseData);
           alert('Login successful, but token is missing in the response. Please contact support.');
         }
       } else {
-        // Log and handle errors from unsuccessful responses
         const errorResponseText = await response.text();
         const errorResponse = errorResponseText ? JSON.parse(errorResponseText) : { message: 'Login failed. Please check your credentials.' };
         console.error('Error during login:', errorResponse);
         alert(errorResponse.message);
       }
     } catch (error) {
-      // Handle any network or unexpected errors
       console.error('Error:', error);
       alert('An unexpected error occurred. Please try again.');
     }
   };
-  
+
   return (
     <section className="py-5">
       <div className="container px-5">
@@ -103,6 +113,17 @@ function LogIn({ setSelectedPage }) {
                     required
                   />
                   <label htmlFor="password">Password</label>
+                </div>
+                <div className="form-floating mb-3">
+                  <input
+                    className="form-control"
+                    id="cnic"
+                    name="cnic" 
+                    type="text"
+                    placeholder="Enter your CNIC..."
+                    required
+                  />
+                  <label htmlFor="cnic">CNIC</label>
                 </div>
                 <input
                   className="d-grid btn btn-primary btn-lg form-control"

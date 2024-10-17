@@ -2,8 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+
 const userRoutes = require('./routes/userRoutes');
 const cnicRoutes = require('./routes/cnicRoutes'); // Import CNIC routes
+// const candidateRoutes = require('./routes/candidateRoutes');
 
 dotenv.config();
 const app = express();
@@ -20,6 +22,7 @@ app.use(express.json()); // Middleware to parse JSON bodies
 // Use the user and CNIC routes
 app.use('/api/user', userRoutes); // Prefix user routes with /api/user
 app.use('/api/cnic', cnicRoutes); // Prefix CNIC routes with /api/cnic
+// app.use('/candidate', candidateRoutes);  
 
 // Connect to MongoDB and start the server
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/Voting';
