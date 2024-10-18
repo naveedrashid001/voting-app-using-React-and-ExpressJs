@@ -32,39 +32,46 @@ function LogIn({ setSelectedPage }) {
       if (response.ok) {
         const responseData = await response.json();
         console.log('Login successful:', responseData);
-      
+
         if (responseData.token) {
-          // Store token, user details, and user email
+          // Store token and user details
           Cookies.set('authToken', responseData.token, { expires: 1 });
-          Cookies.set('userEmail', data.email, { expires: 1 }); // Store email in cookies
           localStorage.setItem('userId', responseData.userId);
           localStorage.setItem('userCNIC', data.cnic);
-      
+
           console.log('Token stored in cookies:', Cookies.get('authToken'));
-          console.log('User Email stored in cookies:', Cookies.get('userEmail'));
           console.log('UserId stored in localStorage:', localStorage.getItem('userId'));
           console.log('User CNIC stored in localStorage:', localStorage.getItem('userCNIC'));
-      
+
           // Fetch all CNICs to check for admin rights
           const adminResponse = await fetch('http://localhost:4000/api/cnic/all');
           const adminData = await adminResponse.json();
           const adminCNICs = adminData.map(item => item.cnic);
-      
+
           // Check if the user's CNIC matches any admin CNIC
           if (adminCNICs.includes(data.cnic)) {
             localStorage.setItem('isAdmin', 'true'); // Store admin status
           } else {
             localStorage.setItem('isAdmin', 'false'); // Set as regular user
           }
-      
+
           // Always redirect to HomePage after login
           navigate('/HomePage');
         } else {
           console.error('Token is undefined in the response:', responseData);
           alert('Login successful, but token is missing in the response. Please contact support.');
         }
+      } else {
+        const errorResponseText = await response.text();
+        const errorResponse = errorResponseText ? JSON.parse(errorResponseText) : { message: 'Login failed. Please check your credentials.' };
+        console.error('Error during login:', errorResponse);
+        alert(errorResponse.message);
       }
-      
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An unexpected error occurred. Please try again.');
+    }
+  };
 
   return (
     <section className="py-5">
