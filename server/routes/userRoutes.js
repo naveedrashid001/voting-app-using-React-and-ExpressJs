@@ -100,15 +100,17 @@ router.post('/login', async (req, res) => {
 
 
 // Fetch user data by email
-router.get('/api/user/data-by-email', async (req, res) => {
-    const { email } = req.query;
+router.get('/data-by-email', async (req, res) => {
+    const { email } = req.query; // Retrieve email from query parameters
+    console.log("Received request for user data by email:", email); // Debugging log
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }); // Find user by email
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        res.json(user);
+        res.json(user); // Send user data as response
     } catch (error) {
+        console.error("Error fetching user data:", error); // Log error for debugging
         res.status(500).json({ message: "Error fetching user data" });
     }
 });

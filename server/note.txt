@@ -1,4 +1,4 @@
-  to start app : npm run dev
+  to start app and server : npm run dev
 
 to run the cnic :  node seedCnicData.js
 

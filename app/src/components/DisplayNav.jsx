@@ -6,20 +6,26 @@ import Cookies from 'js-cookie';
 
 function DisplayNav({ selectedPage, userCNIC }) {
     const [showModal, setShowModal] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false); // Track if the user is admin
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const adminStatus = localStorage.getItem('isAdmin') === 'true'; // Check admin status from localStorage
-        setIsAdmin(adminStatus); // Update isAdmin state
-    }, []); // Run once after component mounts
+        const adminStatus = localStorage.getItem('isAdmin') === 'true';
+        setIsAdmin(adminStatus);
+    }, []);
 
     const handleLogOut = () => {
+        // Clear all cookies
         Cookies.remove('authToken', { path: '/' });
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userCNIC');
-        localStorage.removeItem('isAdmin'); // Clear admin status on logout
+        Cookies.remove('userEmail', { path: '/' });
+        
+        // Clear all localStorage items
+        localStorage.clear();
+
+        // Close the modal
         setShowModal(false);
+        
+        // Navigate to the homepage
         navigate('/');
     };
 
@@ -43,7 +49,6 @@ function DisplayNav({ selectedPage, userCNIC }) {
                             <li className="nav-item fw-bold">
                                 <Link className="nav-link" to="/Profile">Profile</Link>
                             </li>
-                            {/* Conditionally render the AdmainPage link if the user is an admin */}
                             {isAdmin && (
                                 <li className="nav-item fw-bold">
                                     <Link className="nav-link" to="/AdmainPage">AdmainPage</Link>
@@ -63,7 +68,6 @@ function DisplayNav({ selectedPage, userCNIC }) {
                 </div>
             </nav>
 
-            {/* Modal for logout confirmation */}
             {showModal && (
                 <div className="modal show d-block" tabIndex="-1" style={{ display: 'block' }}>
                     <div className="modal-dialog">

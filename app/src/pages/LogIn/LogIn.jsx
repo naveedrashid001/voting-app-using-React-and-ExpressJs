@@ -15,9 +15,9 @@ function LogIn({ setSelectedPage }) {
     
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-
+  
     console.log('Form data:', data);
-
+  
     try {
       const response = await fetch('http://localhost:4000/api/user/login', {
         method: 'POST',
@@ -26,35 +26,37 @@ function LogIn({ setSelectedPage }) {
         },
         body: JSON.stringify(data),
       });
-
+  
       console.log('Response status:', response.status);
-
+  
       if (response.ok) {
         const responseData = await response.json();
         console.log('Login successful:', responseData);
-
+  
         if (responseData.token) {
-          // Store token and user details
+          // Store token, user details, and user email
           Cookies.set('authToken', responseData.token, { expires: 1 });
+          Cookies.set('userEmail', data.email, { expires: 1 }); // Store email in cookies
           localStorage.setItem('userId', responseData.userId);
           localStorage.setItem('userCNIC', data.cnic);
-
+  
           console.log('Token stored in cookies:', Cookies.get('authToken'));
+          console.log('User Email stored in cookies:', Cookies.get('userEmail'));
           console.log('UserId stored in localStorage:', localStorage.getItem('userId'));
           console.log('User CNIC stored in localStorage:', localStorage.getItem('userCNIC'));
-
+  
           // Fetch all CNICs to check for admin rights
           const adminResponse = await fetch('http://localhost:4000/api/cnic/all');
           const adminData = await adminResponse.json();
           const adminCNICs = adminData.map(item => item.cnic);
-
+  
           // Check if the user's CNIC matches any admin CNIC
           if (adminCNICs.includes(data.cnic)) {
             localStorage.setItem('isAdmin', 'true'); // Store admin status
           } else {
             localStorage.setItem('isAdmin', 'false'); // Set as regular user
           }
-
+  
           // Always redirect to HomePage after login
           navigate('/HomePage');
         } else {
@@ -72,6 +74,7 @@ function LogIn({ setSelectedPage }) {
       alert('An unexpected error occurred. Please try again.');
     }
   };
+  
 
   return (
     <section className="py-5">
