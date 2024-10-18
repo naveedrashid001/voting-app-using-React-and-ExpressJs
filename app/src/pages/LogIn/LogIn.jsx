@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { ToastContainer, toast } from 'react-toastify'; // Import Toast components
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
 function LogIn({ setSelectedPage }) {
   const navigate = useNavigate();
@@ -34,47 +36,53 @@ function LogIn({ setSelectedPage }) {
         console.log('Login successful:', responseData);
   
         if (responseData.token) {
+          const token = responseData.token.toString();
+
           // Store token, user details, and user email
-          Cookies.set('authToken', responseData.token, { expires: 1 });
-          Cookies.set('userEmail', data.email, { expires: 1 }); // Store email in cookies
+          Cookies.set('authToken', token, { expires: 1 });
+          Cookies.set('userEmail', data.email, { expires: 1 });
           localStorage.setItem('userId', responseData.userId);
           localStorage.setItem('userCNIC', data.cnic);
-  
+
           console.log('Token stored in cookies:', Cookies.get('authToken'));
           console.log('User Email stored in cookies:', Cookies.get('userEmail'));
           console.log('UserId stored in localStorage:', localStorage.getItem('userId'));
           console.log('User CNIC stored in localStorage:', localStorage.getItem('userCNIC'));
-  
+
           // Fetch all CNICs to check for admin rights
           const adminResponse = await fetch('http://localhost:4000/api/cnic/all');
           const adminData = await adminResponse.json();
           const adminCNICs = adminData.map(item => item.cnic);
-  
+
           // Check if the user's CNIC matches any admin CNIC
           if (adminCNICs.includes(data.cnic)) {
-            localStorage.setItem('isAdmin', 'true'); // Store admin status
+            localStorage.setItem('isAdmin', 'true');
           } else {
-            localStorage.setItem('isAdmin', 'false'); // Set as regular user
+            localStorage.setItem('isAdmin', 'false');
           }
-  
-          // Always redirect to HomePage after login
-          navigate('/HomePage');
+
+          // Show success toast notification
+          toast.success('Login successful! Redirecting...');
+
+          // Redirect to HomePage after a short delay for the notification to show
+          setTimeout(() => {
+            navigate('/HomePage');
+          }, 2000); // Delay of 2 seconds
         } else {
           console.error('Token is undefined in the response:', responseData);
-          alert('Login successful, but token is missing in the response. Please contact support.');
+          toast.error('Login successful, but token is missing. Please contact support.');
         }
       } else {
         const errorResponseText = await response.text();
         const errorResponse = errorResponseText ? JSON.parse(errorResponseText) : { message: 'Login failed. Please check your credentials.' };
         console.error('Error during login:', errorResponse);
-        alert(errorResponse.message);
+        toast.error(errorResponse.message); // Show error toast notification
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     }
   };
-  
 
   return (
     <section className="py-5">
@@ -138,6 +146,7 @@ function LogIn({ setSelectedPage }) {
           </div>
         </div>
       </div>
+      <ToastContainer /> {/* Add ToastContainer for notifications */}
     </section>
   );
 }

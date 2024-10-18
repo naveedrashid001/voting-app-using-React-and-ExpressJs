@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('./../models/user'); // Make sure this path is correct
+const User = require('../models/User'); // Make sure this path is correct
 const Candidate = require('../models/candidate');
 // const { jwtAuthMiddleware } = require('./../jwt');
 

@@ -69,34 +69,41 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+// ?log in 
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body; // Assuming you're sending email and password
-
-  try {
-    const user = await User.findOne({ email }); // Find user by email
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const { email, password, cnic } = req.body; // Receiving email, password, and CNIC from the request
+  
+    try {
+      // Find the user by email
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Compare the plain text password (no bcrypt)
+      if (user.password !== password) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+  
+      // Validate CNIC
+      if (user.cnicNumber !== cnic) {
+        return res.status(401).json({ message: 'Invalid CNIC' });
+      }
+  
+      // Generate JWT token
+      const token = jwt.sign(
+        { userId: user._id, email: user.email }, // Payload
+        process.env.JWT_SECRET, // JWT secret key
+        { expiresIn: '1d' } // Token expiration time
+      );
+  
+      // Respond with the token and userId if login is successful
+      res.status(200).json({ message: 'Login successful', token, userId: user._id });
+    } catch (error) {
+      console.error('Error during login:', error);
+      res.status(500).json({ message: 'Server error' });
     }
-
-    // Validate password here (use bcrypt ideally for security)
-    if (user.password !== password) { // Compare plaintext passwords
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
-
-    // Generate a JWT token using secret from .env file
-    const token = jwt.sign(
-      { userId: user._id, email: user.email }, // Payload
-      process.env.JWT_SECRET, // Use JWT_SECRET from .env
-      { expiresIn: '1d' } // Token expiration (e.g., 1 day)
-    );
-
-    // If login is successful, return the token and user data
-    res.status(200).json({ message: 'Login successful', token, userId: user._id });
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
+  });
 
 
 // Fetch user data by email
