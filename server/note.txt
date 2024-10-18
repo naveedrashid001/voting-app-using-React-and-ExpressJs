@@ -1,7 +1,18 @@
- to run the cnic :  node seedCnicData.js
+  to start app : npm run dev
+
+to run the cnic :  node seedCnicData.js
 
   run the server and the app : npm run dev
 
 
  to run candaite : node seedCandidateData.js
 
+********************************************************************************
+
+emailjs
+      
+ 'YOUR_SERVICE_ID',     // Replace with your EmailJS service ID
+ 'YOUR_TEMPLATE_ID',    // Replace with your EmailJS template ID
+  formData,              // Form data (email, CNIC, and message)
+ 'YOUR_USER_ID'         // Replace with your EmailJS user ID
+    

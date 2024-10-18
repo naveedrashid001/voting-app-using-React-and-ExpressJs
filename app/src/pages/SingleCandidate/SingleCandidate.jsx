@@ -25,7 +25,7 @@ function SingleCandidate() {
   if (!candidate) return <div>Loading...</div>;
 
   return (
-    <div className="container mt-5 d-flex justify-content-center align-items-center" style={{ height: '90vh',backgroundColor: "#EAE6F5", padding:"15px"  }}>
+    <div className="container mt-3 d-flex justify-content-center align-items-center" style={{ height: '80vh',backgroundColor: "#EAE6F5", padding:"15px"  }}>
       <div className="card text-center" style={{ width: '40%' }}>
         <div className="card-body"> 
           <h2 className="card-title">{candidate.name}</h2>
