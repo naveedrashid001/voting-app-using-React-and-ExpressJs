@@ -14,10 +14,12 @@ import DisplayNav from '../../components/DisplayNav';
 
 function NewResults() {
   const [candidates, setCandidates] = useState([]);
+  const [loading, setLoading] = useState(true); // State to manage loading
 
   useEffect(() => {
     // Fetch candidate data from the API
     const fetchCandidates = async () => {
+      setLoading(true); // Set loading to true before fetching
       try {
         const response = await fetch('http://localhost:4000/api/candidate');
         const data = await response.json();
@@ -27,6 +29,8 @@ function NewResults() {
         setCandidates(sortedCandidates);
       } catch (error) {
         console.error('Error fetching candidates:', error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
       }
     };
 
@@ -43,6 +47,14 @@ function NewResults() {
   }, {});
 
   const chartData = Object.values(partyVotes);
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+        <img src='/images/loading.gif' alt="Loading" style={{ width: "200px", height:"200px"}} />
+      </div>
+    ); // Loading state with centered GIF
+  }
 
   return (
     <>

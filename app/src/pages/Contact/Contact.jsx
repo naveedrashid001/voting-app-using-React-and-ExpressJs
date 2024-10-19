@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import emailjs from 'emailjs-com';  // Import EmailJS
+import emailjs from 'emailjs-com'; // Import EmailJS
+import { toast, ToastContainer } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify styles
 
 function Contact({ setSelectedPage }) {
   const [formData, setFormData] = useState({
@@ -32,11 +34,11 @@ function Contact({ setSelectedPage }) {
       )
       .then(
         (result) => {
-          alert('Message sent successfully!');
+          toast.success('Message sent successfully!'); // Success notification
           console.log(result.text);
         },
         (error) => {
-          alert('Failed to send the message, please try again.');
+          toast.error('Failed to send the message, please try again.'); // Error notification
           console.log(error.text);
         }
       );
@@ -95,6 +97,8 @@ function Contact({ setSelectedPage }) {
           </button>
         </form>
       </div>
+
+      <ToastContainer /> {/* Add ToastContainer to render toast notifications */}
     </div>
   );
 }

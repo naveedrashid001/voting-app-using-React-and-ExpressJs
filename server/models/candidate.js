@@ -4,16 +4,23 @@ const candidateSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true // Keep unique for candidate names
+        unique: true
     },
     party: {
         type: String,
         required: true
-        // Remove the unique: true constraint here
     },
     age: {
         type: Number,
         required: true
+    },
+    description: {
+        type: String,
+        default: 'No description available' // Default value if not provided
+    },
+    image: {
+        type: String,
+        default: 'https://via.placeholder.com/300x400' // Default image URL if not provided
     },
     votes: [
         {

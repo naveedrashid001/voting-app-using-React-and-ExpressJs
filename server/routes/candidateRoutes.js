@@ -7,12 +7,11 @@ const Candidate = require('../models/candidate');
 const path = require('path');
 
 // get all can 
-
 router.get('/', async (req, res) => {
     try {
         // Query to retrieve all candidates with their full data
         const candidates = await Candidate.find({})
-            .select('_id name party age votes voteCount') // Select all the necessary fields
+            .select('_id name party age description image votes voteCount') // Include 'description' and 'image' fields
             .populate('votes.user', 'name'); // Populate the user field from votes
 
         if (!candidates.length) {
@@ -26,6 +25,8 @@ router.get('/', async (req, res) => {
         res.status(500).json({ err: 'Internal Server Error' });
     }
 });
+
+
 
 //  single can ?
 router.get('/:id', async (req, res) => {

@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function Results({ setSelectedPage }) {
   const [candidates, setCandidates] = useState([]);
+  const [loading, setLoading] = useState(true); // State to manage loading
   const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
@@ -21,6 +22,7 @@ function Results({ setSelectedPage }) {
 
     // Fetch candidate data from the API
     const fetchCandidates = async () => {
+      setLoading(true); // Set loading to true before fetching
       try {
         const response = await fetch('http://localhost:4000/api/candidate');
         const data = await response.json();
@@ -31,6 +33,8 @@ function Results({ setSelectedPage }) {
         setCandidates(sortedCandidates);
       } catch (error) {
         console.error('Error fetching candidates:', error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
       }
     };
 
@@ -53,8 +57,16 @@ function Results({ setSelectedPage }) {
     navigate(`/candidate/${id}`); // Navigate to the candidate's details page
   };
 
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+        <img src='/images/loading.gif' alt="Loading" style={{ width: "200px", height:"200px" }} />
+      </div>
+    ); // Loading state with centered GIF
+  }
+
   return (
-    <div className="container mt-4" style={{ backgroundColor: "#EAE6F5", padding:"15px" }}>
+    <div className="container mt-4" style={{ backgroundColor: "#EAE6F5", padding: "15px" }}>
       <div className="card shadow mb-4" style={{ width: '70%', margin: '20px auto' }}>
         <div className="card-body">
           <h5 className="card-title text-center">Voting Result</h5>
@@ -79,7 +91,7 @@ function Results({ setSelectedPage }) {
               style={{ maxWidth: '100%', margin: '0 auto', padding: '20px' }} 
               onClick={() => handleCandidateClick(candidate._id)} // Use the click handler
             >
-              <div className="card-body text-center" style={{cursor:"pointer"}}>
+              <div className="card-body text-center" style={{ cursor: "pointer" }}>
                 <h6 className="card-title">{candidate.name}</h6>
                 <p className="card-text">
                   <strong>Party:</strong> {candidate.party} <br />
