@@ -3,6 +3,7 @@ import './styling/Home.css';
 import SecondSection from './components/SecondSection';
 import Condaidate from '../Condaidate/Condaidate'; // Fixed the import spelling
 import About from '../About/About'; // Fixed the import spelling
+import { Link } from 'react-router-dom';
 
 
 function Home({ setSelectedPage }) {
@@ -28,8 +29,10 @@ function Home({ setSelectedPage }) {
 
         {/* Buttons */}
         <div className="mt-5">
-          <button className="btn btn-custom-primary me-3">Get Started</button>
-          <button className="btn btn-custom-secondary">View Vote Results</button>
+        <Link to="/LogIn">
+        <button type="button" class="btn btn-outline-success me-2" data-mdb-ripple-init data-mdb-ripple-color="dark">Get Started</button> </Link>
+        <Link to="/Results">
+        <button type="button" class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark">View Vote Results</button> </Link>
         </div>
 
         <div className='divCenter'>
