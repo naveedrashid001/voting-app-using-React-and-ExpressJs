@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import DisplayNav from '../../components/DisplayNav';
-import Cookies from 'js-cookie';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ApplyVote() {
   const [candidates, setCandidates] = useState([]);
@@ -28,7 +30,7 @@ function ApplyVote() {
 
   const handleVote = async () => {
     if (!selectedCandidate) {
-      alert('Please select a candidate.');
+      toast.error('Please select a candidate.');
       return;
     }
 
@@ -46,41 +48,55 @@ function ApplyVote() {
 
       const data = await response.json();
       if (response.ok) {
-        alert('Vote cast successfully!');
+        toast.success('Vote cast successfully!');
       } else {
-        alert(data.message || 'An error occurred while voting.');
+        toast.error(data.message || 'An error occurred while voting.');
       }
     } catch (error) {
       console.error('Error during voting:', error);
-      alert('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     }
   };
 
   return (
     <>
       <DisplayNav />
-      <div className="container">
-        <h1 className="mt-5">Apply for Vote</h1>
-        <div className="form-group">
-          <label htmlFor="candidate">Select a candidate:</label>
-          <select
-            id="candidate"
-            className="form-control"
-            value={selectedCandidate}
-            onChange={(e) => setSelectedCandidate(e.target.value)}
-          >
-            <option value="">-- Select a Candidate --</option>
-            {candidates.map((candidate) => (
-              <option key={candidate._id} value={candidate._id}>
-                {candidate.name} - {candidate.party} (Age: {candidate.age})
-              </option>
-            ))}
-          </select>
-        </div>
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '90vh', backgroundColor: '#EAE6F5', padding: '10px' }}>
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-lg-6 col-md-8 mt-0">
+              <div className="card shadow p-4">
+                <h1 className="text-center">Give Vote</h1>
 
-        <button className="btn btn-primary mt-3" onClick={handleVote}>
-          Submit Vote
-        </button>
+                <div className="form-group mt-4">
+                  <label htmlFor="candidate">Select a candidate:</label>
+                  <select
+                    id="candidate"
+                    className="form-control"
+                    value={selectedCandidate}
+                    onChange={(e) => setSelectedCandidate(e.target.value)}
+                  >
+                    <option value="">-- Select a Candidate --</option>
+                    {candidates.map((candidate) => (
+                      <option key={candidate._id} value={candidate._id}>
+                        {candidate.name} - {candidate.party} (Age: {candidate.age})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <button
+                  className="btn btn-primary mt-3 w-100"
+                  onClick={handleVote}
+                >
+                  Submit
+                </button>
+
+                <ToastContainer />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
