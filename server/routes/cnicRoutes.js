@@ -42,6 +42,34 @@ router.post('/add-cnic', async (req, res) => {
     }
 });
 
+// Route to remove admin role and change to voter
+router.post('/remove-cnic', async (req, res) => {
+    const { cnicNumber } = req.body;
+
+    try {
+        // Check if the CNIC exists in the User collection
+        const user = await User.findOne({ cnicNumber });
+
+        if (!user) {
+            return res.status(404).json({ message: "No account associated with this CNIC." });
+        }
+
+        // If the user exists and is not an admin
+        if (user.role !== 'admin') {
+            return res.status(400).json({ message: "User is not an admin." });
+        }
+
+        // If the user exists, update their role to voter
+        user.role = 'voter';
+        await user.save(); // Save the changes to the database
+
+        return res.status(200).json({ message: "User role updated to voter." });
+    } catch (error) {
+        console.error(error); // Log the error for debugging
+        return res.status(500).json({ message: "Error updating role." });
+    }
+});
+
 
 
 

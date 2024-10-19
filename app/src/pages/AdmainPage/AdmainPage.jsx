@@ -9,7 +9,7 @@ function AdmainPage() {
       <div className="container mt-4" style={{ backgroundColor: "#EAE6F5", padding: "15px", width: "80%", height: "80vh" }}>
         <div className="row mt-2 justify-content-center align-items-center h-100">
           {/* Card 1 */}
-          <div className="col-md-4 mb-4 offset-1" >
+          <div className="col-md-4 mb-0 offset-1" >
             <div className="card shadow-lg" style={{  height: '150px' }}>
               <div className="card-body text-center">
                 <h4 className="card-title">Add Admin </h4>
@@ -22,7 +22,7 @@ function AdmainPage() {
           </div>
 
           {/* Card 2 */}
-          <div className="col-md-4 mb-4"> 
+          <div className="col-md-4 mb-0"> 
             <div className="card shadow-lg" style={{ height: '150px' }}>
               <div className="card-body text-center">
               <h4 className="card-title">Remove Admin </h4>
@@ -34,7 +34,7 @@ function AdmainPage() {
           </div>
 
           {/* Card 3 */}
-          <div className="col-md-4 mb-4 offset-1"> 
+          <div className="col-md-4 mb-0 offset-1"> 
             <div className="card shadow-lg" style={{ height: '150px' }}>
               <div className="card-body text-center">
               <h4 className="card-title">Add candidate </h4>
@@ -46,7 +46,7 @@ function AdmainPage() {
           </div>
 
           {/* Card 4 */}
-          <div className="col-md-4 mb-4"> 
+          <div className="col-md-4 mb-0"> 
             <div className="card shadow-lg" style={{ height: '150px' }}>
               <div className="card-body text-center">
               <h4 className="card-title">Remove candidate </h4>
