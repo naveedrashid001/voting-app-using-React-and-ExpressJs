@@ -1,11 +1,12 @@
   to start app and server : npm run dev
 
+*******************************************************************************
+
 to run the cnic :  node seedCnicData.js
-
-  run the server and the app : npm run dev
-
+to see all the cnic: http://localhost:4000/api/cnic/all
 
  to run candaite : node seedCandidateData.js
+ to see all the candaite: http://localhost:4000/api/candidate
 
 ********************************************************************************
 
