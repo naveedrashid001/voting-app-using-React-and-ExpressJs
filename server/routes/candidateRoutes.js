@@ -46,6 +46,45 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Route to add a new candidate
+router.post('/add', async (req, res) => {
+    const { name, party, age, description, image } = req.body;
+
+    try {
+        const newCandidate = new Candidate({
+            name,
+            party,
+            age,
+            description,
+            image
+        });
+
+        await newCandidate.save(); // Save the new candidate to the database
+        res.status(201).json({ message: "Candidate added successfully", candidate: newCandidate });
+    } catch (error) {
+        console.error('Error adding candidate:', error);
+        res.status(500).json({ message: "Error adding candidate", error });
+    }
+});
+
+// Route to delete a candidate
+router.delete('/remove/:id', async (req, res) => {
+    const { id } = req.params; // Get the candidate ID from the URL parameters
+
+    try {
+        const deletedCandidate = await Candidate.findByIdAndDelete(id); // Delete the candidate
+
+        if (!deletedCandidate) {
+            return res.status(404).json({ message: 'Candidate not found' });
+        }
+
+        res.status(200).json({ message: 'Candidate removed successfully', candidate: deletedCandidate });
+    } catch (error) {
+        console.error('Error removing candidate:', error);
+        res.status(500).json({ message: 'Error removing candidate', error });
+    }
+});
+
 
 
 // Candidate list route

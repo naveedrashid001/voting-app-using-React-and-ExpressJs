@@ -33,7 +33,11 @@ function AppRoutes() {
     location.pathname === '/AdmainPage' || 
     location.pathname === '/NewResults' || 
     location.pathname === '/LogOut' || 
-    location.pathname === '/ApplyVote';
+    location.pathname === '/ApplyVote'||
+    location.pathname === '/addadmin'||
+    location.pathname === '/Addcandidate'||
+    location.pathname === '/removeadmin'||
+    location.pathname === '/Removecandidate';
 
   return (
     <div>

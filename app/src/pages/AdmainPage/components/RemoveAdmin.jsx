@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify'; // Ensure you have react-toastify installed
+import DisplayNav from '../../../components/DisplayNav';
 
 function RemoveAdmin() {
     const [cnicNumber, setCnicNumber] = useState('');
@@ -34,7 +35,9 @@ function RemoveAdmin() {
     };
 
     return (
-        <div
+       <>
+       <DisplayNav/>
+       <div
             className="container mt-4"
             style={{ backgroundColor: "#EAE6F5", padding: "15px", width: "80%", height: "80vh" }}
         >
@@ -66,6 +69,7 @@ function RemoveAdmin() {
                 <ToastContainer />
             </div>
         </div>
+        </>
     );
 }
 
