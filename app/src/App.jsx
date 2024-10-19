@@ -18,6 +18,10 @@ import AdmainPage from './pages/AdmainPage/AdmainPage';
 import NotFound from './pages/NotFound/NotFound';
 import SingleCandidate from './pages/SingleCandidate/SingleCandidate'; // Import the SingleCandidate component
 import ApplyVote from './pages/ApplyVote/ApplyVote'; // Import the ApplyVote component
+import RemoveAdmin from './pages/AdmainPage/components/RemoveAdmin';
+import Removecandidate from './pages/AdmainPage/components/Removecandidate';
+import Addcandidate from './pages/AdmainPage/components/Addcandidate';
+import AddAdmin from './pages/AdmainPage/components/AddAdmin';
 
 function AppRoutes() {
   const [selectedPage, setSelectedPage] = useState('');
@@ -51,7 +55,16 @@ function AppRoutes() {
         {/* Use ProtectedRoute to wrap protected components */}
         <Route path="/Profile" element={<ProtectedRoute element={<Profile />} />} />
         <Route path="/AdmainPage" element={<ProtectedRoute element={<AdmainPage />} />} />
-        <Route path="/ApplyVote" element={<ProtectedRoute element={<ApplyVote />} />} /> {/* ApplyVote wrapped in ProtectedRoute */}
+        <Route path="/ApplyVote" element={<ProtectedRoute element={<ApplyVote />} />} /> 
+        {/* Admin page route */}
+        <Route path="/addadmin" element={<ProtectedRoute element={<AddAdmin />} />} /> 
+        <Route path="/Addcandidate" element={<ProtectedRoute element={<Addcandidate />} />} /> 
+
+        <Route path="/removeadmin" element={<ProtectedRoute element={<RemoveAdmin />} />} /> 
+        <Route path="/Removecandidate" element={<ProtectedRoute element={<Removecandidate />} />} /> 
+
+
+
         <Route path="/NewResults" element={<ProtectedRoute element={<NewResults />} />} />
         <Route path="/LogOut" element={<LogOut />} />
       </Routes>
