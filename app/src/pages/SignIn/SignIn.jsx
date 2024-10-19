@@ -54,7 +54,7 @@ function SignIn({ setSelectedPage }) {
                     localStorage.setItem('userId', userId); // Store user ID in local storage
                     console.log('Token set in cookies:', token);
                     console.log('User ID stored in local storage:', userId);
-                    navigate('/HomePage'); // Redirect to HomePage after successful registration
+                    navigate('/LogIn'); // Redirect to HomePage after successful registration
                 } else {
                     console.error('Token is undefined. Check the backend response structure.');
                 }

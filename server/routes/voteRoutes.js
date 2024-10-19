@@ -14,6 +14,11 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
+        // Check if the user is an admin
+        if (user.role === 'admin') {
+            return res.status(403).json({ message: 'Admins cannot vote.' }); // Restrict admins from voting
+        }
+
         // Check if the user has already voted
         if (user.isVoted) {
             return res.status(403).json({ message: 'User has already voted.' });
@@ -42,5 +47,6 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 
 module.exports = router;

@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/User');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const CNIC = require('../models/cnic')
 
 require('dotenv').config();
 
@@ -52,14 +53,30 @@ router.get('/user/data-by-ip', async (req, res) => {
 router.post('/signup', async (req, res) => {
     const { name, age, email, mobile, address, cnicNumber, password, ip } = req.body;
 
-    // Create a new user
-    const user = new User({ name, age, email, mobile, address, cnicNumber, password, ip });
-
     try {
+        // Check if the CNIC exists in the admin CNIC collection
+        const isAdminCnic = await CNIC.findOne({ cnic: cnicNumber });
+
+        // Set the role based on whether the CNIC is found in the admin CNIC list
+        const role = isAdminCnic ? 'admin' : 'voter';
+
+        // Create a new user with the determined role
+        const user = new User({
+            name,
+            age,
+            email,
+            mobile,
+            address,
+            cnicNumber,
+            password,
+            ip,
+            role,  // Set role as 'admin' or 'voter'
+        });
+
         await user.save();
 
         // Generate a token after user creation
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         // Respond with the token, user information, and email
         res.status(201).json({ message: 'User created successfully', user, token, email: user.email });
