@@ -3,11 +3,14 @@ import DisplayNav from '../../components/DisplayNav';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function ApplyVote() {
   const [candidates, setCandidates] = useState([]);
   const [selectedCandidate, setSelectedCandidate] = useState('');
   const [userId, setUserId] = useState(null);
+
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     // Fetch user data from cookies/local storage
@@ -58,6 +61,10 @@ function ApplyVote() {
     }
   };
 
+  const handleBack = () => {
+    navigate(-1); // Navigate back to the previous page
+  };
+
   return (
     <>
       <DisplayNav />
@@ -90,6 +97,13 @@ function ApplyVote() {
                   onClick={handleVote}
                 >
                   Submit
+                </button>
+
+                <button
+                  className="btn btn-danger mt-2 w-100" // Add back button with btn-danger
+                  onClick={handleBack}
+                >
+                  Back
                 </button>
 
                 <ToastContainer />

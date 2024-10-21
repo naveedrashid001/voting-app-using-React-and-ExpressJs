@@ -29,7 +29,7 @@ function Results({ setSelectedPage }) {
 
         // Sort candidates by voteCount in descending order
         const sortedCandidates = data.sort((a, b) => b.voteCount - a.voteCount);
-        
+
         setCandidates(sortedCandidates);
       } catch (error) {
         console.error('Error fetching candidates:', error);
@@ -50,7 +50,11 @@ function Results({ setSelectedPage }) {
     return acc;
   }, {});
 
-  const chartData = Object.values(partyVotes);
+  // Round the vote count for chart display
+  const chartData = Object.values(partyVotes).map((party) => ({
+    ...party,
+    votes: Math.round(party.votes), // Ensure vote count is rounded to the nearest integer
+  }));
 
   // Function to handle candidate card click
   const handleCandidateClick = (id) => {
@@ -103,7 +107,7 @@ function Results({ setSelectedPage }) {
                   <h6 className="card-title">{candidate.name}</h6>
                   <p className="card-text">
                     <strong>Party:</strong> {candidate.party} <br />
-                    <strong>Vote Count:</strong> {candidate.voteCount}
+                    <strong>Vote Count:</strong> {Math.round(candidate.voteCount)} {/* Round the vote count here */}
                   </p>
                 </div>
               </div>

@@ -24,6 +24,13 @@ function Contact({ setSelectedPage }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // CNIC validation: Check if it's exactly 13 digits long
+    const cnicRegex = /^\d{13}$/;
+    if (!cnicRegex.test(formData.cnic)) {
+      toast.error('CNIC must be exactly 13 digits.'); // Show error notification
+      return;
+    }
+
     // EmailJS send function
     emailjs
       .send(
@@ -69,7 +76,10 @@ function Contact({ setSelectedPage }) {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="cnic" className="form-label">CNIC:</label>
+            <label htmlFor="cnic" className="form-label mb-0 p-0">CNIC:</label>
+            <div><small className='mt-0 p-0' style={{ color: 'red', fontSize:"12px" }}>
+                                    CNIC number must be 13 digits
+                                </small></div>
             <input
               type="text"
               name="cnic"

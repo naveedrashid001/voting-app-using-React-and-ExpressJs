@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'; // Using js-cookie for handling cookies
+import { ToastContainer, toast } from 'react-toastify'; // Import Toast components
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
 function SignIn({ setSelectedPage }) {
     const [formData, setFormData] = useState({
@@ -13,7 +15,6 @@ function SignIn({ setSelectedPage }) {
         password: ''
     });
 
-    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate(); // Use useNavigate for navigation
 
     useEffect(() => {
@@ -54,36 +55,153 @@ function SignIn({ setSelectedPage }) {
                     localStorage.setItem('userId', userId); // Store user ID in local storage
                     console.log('Token set in cookies:', token);
                     console.log('User ID stored in local storage:', userId);
-                    navigate('/LogIn'); // Redirect to HomePage after successful registration
+                    
+                    // Show success toast notification
+                    toast.success('Registration successful! Redirecting to login page...');
+
+                    // Redirect to LogIn page after a short delay for the notification to show
+                    setTimeout(() => {
+                        navigate('/LogIn');
+                    }, 2000); // Delay of 2 seconds
                 } else {
                     console.error('Token is undefined. Check the backend response structure.');
+                    toast.error('Registration successful, but token is missing. Please contact support.');
                 }
             } else {
                 // Handle error response
                 const errorMessage = text || 'User already exists. Please try a different email or CNIC.';
                 console.error('Error registering user:', errorMessage);
-                setErrorMessage(errorMessage);
+                toast.error(errorMessage); // Show error toast notification
             }
         } catch (error) {
             console.error('Error:', error);
-            setErrorMessage('An unexpected error occurred. Please try again.');
+            toast.error('An unexpected error occurred. Please try again.');
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="name" placeholder="Enter Name" value={formData.name} onChange={handleChange} required />
-                <input type="number" name="age" placeholder="Enter Age" value={formData.age} onChange={handleChange} required />
-                <input type="email" name="email" placeholder="Enter Email" value={formData.email} onChange={handleChange} required />
-                <input type="text" name="mobile" placeholder="Enter Mobile" value={formData.mobile} onChange={handleChange} required />
-                <input type="text" name="address" placeholder="Enter Address" value={formData.address} onChange={handleChange} required />
-                <input type="text" name="cnicNumber" placeholder="Enter CNIC Number" value={formData.cnicNumber} onChange={handleChange} required />
-                <input type="password" name="password" placeholder="Enter Password" value={formData.password} onChange={handleChange} required />
-                <button type="submit">Submit</button>
-            </form>
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        </div>
+        <section className="py-5">
+            <div className="container px-5">
+                <div className="bg-light rounded-4 py-5 px-4 px-md-5">
+                    <div className="text-center mb-5">
+                        <div>
+                            <img
+                                className="feature rounded-3 mb-3"
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjsU9I6rvcOTugnfsbL9l8L8OnW9ZlE7qdyg&s"
+                                alt="pakFlag"
+                                style={{ width: '100px' }}
+                            />
+                        </div>
+                        <h1 className="fw-bolder">Sign In</h1>
+                    </div>
+                    <div className="row gx-5 justify-content-center">
+                        <div className="col-lg-8 col-xl-6">
+                            <form onSubmit={handleSubmit} id="signInForm">
+                                {/* Input fields for sign up */}
+                                <div className="form-floating mb-3">
+                                    <input
+                                        className="form-control"
+                                        id="name" 
+                                        name="name" 
+                                        type="text"
+                                        placeholder="Enter your name..."
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label htmlFor="name">Name</label>
+                                </div>
+                                <div className="form-floating mb-3">
+                                    <input
+                                        className="form-control"
+                                        id="age"
+                                        name="age"
+                                        type="number"
+                                        placeholder="Enter your age..."
+                                        value={formData.age}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label htmlFor="age">Age</label>
+                                </div>
+                                <div className="form-floating mb-3">
+                                    <input
+                                        className="form-control"
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Enter your email..."
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label htmlFor="email">Email address</label>
+                                </div>
+                                <div className="form-floating mb-3">
+                                    <input
+                                        className="form-control"
+                                        id="mobile"
+                                        name="mobile"
+                                        type="text"
+                                        placeholder="Enter your mobile..."
+                                        value={formData.mobile}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label htmlFor="mobile">Mobile</label>
+                                </div>
+                                <div className="form-floating mb-3">
+                                    <input
+                                        className="form-control"
+                                        id="address"
+                                        name="address"
+                                        type="text"
+                                        placeholder="Enter your address..."
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label htmlFor="address">Address</label>
+                                </div>
+                                <div className="form-floating mb-3">
+                                    <input
+                                        className="form-control"
+                                        id="cnicNumber"
+                                        name="cnicNumber"
+                                        type="text"
+                                        placeholder="Enter your CNIC Number..."
+                                        value={formData.cnicNumber}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label htmlFor="cnicNumber">CNIC Number</label>
+                                </div>
+                                <div className="form-floating mb-3">
+                                    <input
+                                        className="form-control"
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        placeholder="Enter your password..."
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label htmlFor="password">Password</label>
+                                </div>
+                                <button
+                                    className="d-grid btn btn-primary btn-lg form-control"
+                                    type="submit"
+                                >
+                                    Sign In
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ToastContainer /> {/* Add ToastContainer for notifications */}
+        </section>
     );
 }
 

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify'; // Ensure you have react-toastify installed
+import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import DisplayNav from '../../../components/DisplayNav';
+import 'react-toastify/dist/ReactToastify.css'; // Ensure Toastify CSS is imported
 
 function RemoveAdmin() {
     const [cnicNumber, setCnicNumber] = useState('');
+    const navigate = useNavigate(); // Initialize useNavigate for back button
 
     const handleCnicChange = (e) => {
         setCnicNumber(e.target.value);
@@ -34,9 +37,13 @@ function RemoveAdmin() {
         }
     };
 
+    const handleBack = () => {
+        navigate(-1); // Navigate back to the previous page
+    };
+
     return (
        <>
-       <DisplayNav/>
+       <DisplayNav />
        <div
             className="container mt-4"
             style={{ backgroundColor: "#EAE6F5", padding: "15px", width: "80%", height: "80vh" }}
@@ -61,15 +68,22 @@ function RemoveAdmin() {
                                     required
                                 />
                             </div>
-                            <button type="submit" className="btn btn-danger">Remove Admin</button>
+                            <button type="submit" className="btn btn-primary w-100 mb-2">Remove Admin</button>
                         </form>
+
+                        <button
+                            className="btn btn-danger w-100"
+                            onClick={handleBack}
+                        >
+                            Back
+                        </button>
                     </div>
                 </div>
-                {/* ToastContainer needs to be included here */}
+                {/* ToastContainer to show notifications */}
                 <ToastContainer />
             </div>
         </div>
-        </>
+       </>
     );
 }
 
