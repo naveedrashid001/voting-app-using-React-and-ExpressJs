@@ -29,7 +29,7 @@ function Navbar({ selectedPage }) {
             ) : null}
             {!selectedPage || selectedPage !== 'Condaidate' ? (
               <li className="nav-item fw-bold">
-                <Link className="nav-link" to="/Condaidate">Condaidate</Link>
+                <Link className="nav-link" to='/Condaidate'>Condaidate</Link> 
               </li>
             ) : null}
             {!selectedPage || selectedPage !== 'Results' ? (

@@ -32,8 +32,8 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const candidate = await Candidate.findById(req.params.id)
-            .select('_id name party age votes voteCount') // Select the necessary fields
-            .populate('votes.user', 'name'); // Populate the user field from votes
+            .select('_id name party age description image voteCount') // Select necessary fields
+            .populate('votes.user', 'name');
 
         if (!candidate) {
             return res.status(404).json({ message: 'Candidate not found.' });
@@ -45,6 +45,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ err: 'Internal Server Error' });
     }
 });
+
 
 // Route to add a new candidate
 router.post('/add', async (req, res) => {

@@ -32,7 +32,8 @@ function Home({ setSelectedPage }) {
         <Link to="/LogIn">
         <button type="button" class="btn btn-outline-success me-2" data-mdb-ripple-init data-mdb-ripple-color="dark">Get Started</button> </Link>
         <Link to="/Results">
-        <button type="button" class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark">View Vote Results</button> </Link>
+        <button type="button" class="btn btn-outline-info" data-mdb-ripple-init data-mdb-ripple-color="dark">View Vote Results</button>
+         </Link>
         </div>
 
         <div className='divCenter'>

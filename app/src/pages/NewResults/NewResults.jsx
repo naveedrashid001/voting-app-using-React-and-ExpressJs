@@ -80,12 +80,21 @@ function NewResults() {
           {candidates.map((candidate) => (
             <div className="col-md-6 mb-4" key={candidate._id}>
               <div className="card shadow" style={{ maxWidth: '100%', margin: '0 auto', padding: '20px' }}>
-                <div className="card-body text-center">
-                  <h6 className="card-title">{candidate.name}</h6>
-                  <p className="card-text">
-                    <strong>Party:</strong> {candidate.party} <br />
-                    <strong>Vote Count:</strong> {candidate.voteCount}
-                  </p>
+                <div className="d-flex align-items-center">
+                  {/* Candidate image */}
+                  <img 
+                    src={candidate.image || 'https://via.placeholder.com/150'} // Fallback to placeholder if no image is available
+                    alt={candidate.name}
+                    className="img-thumbnail"
+                    style={{ width: '150px', height: '150px', objectFit: 'cover', marginRight: '15px' }}
+                  />
+                  <div className="card-body">
+                    <h6 className="card-title">{candidate.name}</h6>
+                    <p className="card-text">
+                      <strong>Party:</strong> {candidate.party} <br />
+                      <strong>Vote Count:</strong> {candidate.voteCount}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

@@ -60,7 +60,7 @@ function Results({ setSelectedPage }) {
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
-        <img src='/images/loading.gif' alt="Loading" style={{ width: "200px", height:"200px" }} />
+        <img src='/images/loading.gif' alt="Loading" style={{ width: "200px", height: "200px" }} />
       </div>
     ); // Loading state with centered GIF
   }
@@ -91,12 +91,21 @@ function Results({ setSelectedPage }) {
               style={{ maxWidth: '100%', margin: '0 auto', padding: '20px' }} 
               onClick={() => handleCandidateClick(candidate._id)} // Use the click handler
             >
-              <div className="card-body text-center" style={{ cursor: "pointer" }}>
-                <h6 className="card-title">{candidate.name}</h6>
-                <p className="card-text">
-                  <strong>Party:</strong> {candidate.party} <br />
-                  <strong>Vote Count:</strong> {candidate.voteCount}
-                </p>
+              <div className="d-flex align-items-center">
+                {/* Candidate image */}
+                <img 
+                  src={candidate.image || 'https://via.placeholder.com/150'} // Fallback to placeholder if no image is available
+                  alt={candidate.name}
+                  className="img-thumbnail"
+                  style={{ width: '150px', height: '150px', objectFit: 'cover', marginRight: '15px' }}
+                />
+                <div className="card-body">
+                  <h6 className="card-title">{candidate.name}</h6>
+                  <p className="card-text">
+                    <strong>Party:</strong> {candidate.party} <br />
+                    <strong>Vote Count:</strong> {candidate.voteCount}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
