@@ -34,6 +34,17 @@ function SignIn({ setSelectedPage }) {
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission
 
+        if (formData.password.length < 7 || formData.password.length > 14) {
+            toast.error('Password must be between 8 and 14 characters long.'); // Show error toast notification
+            return; // Stop form submission if the validation fails
+        } 
+        // Age validation
+          if (formData.age < 18 || formData.age > 100) {
+           toast.error('You are not eligible to vote'); // Show error toast notification
+            return; // Stop form submission if the validation fails
+          }
+
+
         try {
             const response = await fetch('http://localhost:4000/api/user/signup', {
                 method: 'POST',
